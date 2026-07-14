@@ -1,0 +1,64 @@
+# deployment-testbot/docker-compose.yml — Cal.com SUT, BUILT FROM SOURCE.
+#
+# Cal.com facts (verified 2026-07-14 against the cloned calcom/cal.com HEAD):
+#   Dockerfile:   ./Dockerfile (root) — builds apps/web (Next.js) FROM SOURCE.
+#   Port:         3000
+#   Health:       GET http://localhost:3000  (matches the Dockerfile HEALTHCHECK: wget --spider :3000)
+#   Entrypoint:   scripts/start.sh → wait-for-db → `prisma migrate deploy` → seed app-store → `yarn start`
+#   Build args:   NEXT_PUBLIC_WEBAPP_URL is baked into the client bundle at build time; DATABASE_URL
+#                 is needed at build for `prisma generate`. NEXTAUTH_SECRET/CALENDSO_ENCRYPTION_KEY
+#                 default to "secret" in the Dockerfile but we pin them.
+#
+# Fixed dev secrets below are NON-PRODUCTION (deterministic so eval runs are reproducible).
+# UPSTREAM_CHECKOUT: path to the cloned cal.com source tree (build context = repo root). Defaults to ../.
+services:
+  database:
+    image: postgres:16
+    container_name: calcom-testb-db
+    environment:
+      POSTGRES_USER: unicorn_user
+      POSTGRES_PASSWORD: magical_password
+      POSTGRES_DB: calendso
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U unicorn_user -d calendso"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+
+  redis:
+    image: redis:7
+    container_name: calcom-testb-redis
+
+  calcom:
+    build:
+      context: ${UPSTREAM_CHECKOUT:-../}
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_WEBAPP_URL: http://localhost:3000
+        NEXT_PUBLIC_API_V2_URL: http://localhost:3000/api/v2
+        CALCOM_TELEMETRY_DISABLED: "1"
+        DATABASE_URL: postgresql://unicorn_user:magical_password@database:5432/calendso
+        NEXTAUTH_SECRET: testbotcalcomnextauthsecret00000
+        CALENDSO_ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef
+    container_name: calcom-testb
+    depends_on:
+      database:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://unicorn_user:magical_password@database:5432/calendso
+      DATABASE_DIRECT_URL: postgresql://unicorn_user:magical_password@database:5432/calendso
+      DATABASE_HOST: database:5432
+      NEXTAUTH_SECRET: testbotcalcomnextauthsecret00000
+      NEXTAUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_WEBAPP_URL: http://localhost:3000
+      CALENDSO_ENCRYPTION_KEY: 0123456789abcdef0123456789abcdef
+      REDIS_URL: redis://redis:6379
+      CALCOM_TELEMETRY_DISABLED: "1"
+    ports:
+      - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:3000 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 30
+      start_period: 180s
