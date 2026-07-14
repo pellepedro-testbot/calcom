@@ -36,6 +36,11 @@ jobs:
           token: ${{ steps.skyramp-testbot-app-token.outputs.token }}
           persist-credentials: false
 
+      # docker-container builder so the from-source SUT build can export/import a GHA
+      # layer cache (see deployment-testbot/docker-compose.ci.yml).
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - uses: skyramp/testbot@70034f7ff936e4e516064307679160cdc8da60eb # v0.11.0
         with:
           skyrampMcpVersion: 0.3.1
