@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@calcom/prisma";
+import { Prisma } from "@calcom/prisma/client";
 import { HttpError } from "@calcom/lib/http-error";
 
 import type { TrpcSessionUser } from "../../../types";
@@ -136,7 +137,7 @@ export const createBookingHandler = async ({
       userId: ctx.user.id,
       status: "ACCEPTED",
       description: notes,
-      metadata: metadata ?? {},
+      metadata: (metadata ?? {}) as Prisma.InputJsonValue,
       attendees: {
         create: [
           {
