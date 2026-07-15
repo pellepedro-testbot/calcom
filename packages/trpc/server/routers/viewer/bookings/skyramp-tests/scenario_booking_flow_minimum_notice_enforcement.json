@@ -1,0 +1,62 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"available\":false,\"reason\":\"Booking requires at least 120 minutes notice\"}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/api/trpc/bookings/checkBookingAvailability",
+    "QueryParams": {
+      "input": [
+        "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-15T14:22:00.000Z\",\"endTime\":\"2026-07-15T14:52:00.000Z\",\"timeZone\":\"UTC\"}}"
+      ]
+    },
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:33.019Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"available\":true,\"reason\":null,\"nextAvailableSlot\":null}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/api/trpc/bookings/checkBookingAvailability",
+    "QueryParams": {
+      "input": [
+        "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-20T09:00:00.000Z\",\"endTime\":\"2026-07-20T09:30:00.000Z\",\"timeZone\":\"UTC\"}}"
+      ]
+    },
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:33.019Z",
+    "Scheme": "http"
+  }
+]

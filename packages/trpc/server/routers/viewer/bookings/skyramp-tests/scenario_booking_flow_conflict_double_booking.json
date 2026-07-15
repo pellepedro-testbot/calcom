@@ -1,0 +1,84 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-18T10:00:00.000Z\",\"endTime\":\"2026-07-18T10:30:00.000Z\",\"timeZone\":\"UTC\",\"name\":\"Alice Booker\",\"email\":\"alice.booker+ts1@example.com\",\"language\":\"en\"}}",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"uid\":\"624323e5-7691-49fb-92c0-a197f02b4e98\",\"title\":\"Alice Booker <> Testbot 30 Min\",\"startTime\":\"2026-07-18T10:00:00.000Z\",\"endTime\":\"2026-07-18T10:30:00.000Z\",\"attendeeName\":\"Alice Booker\",\"attendeeEmail\":\"alice.booker+ts1@example.com\",\"status\":\"ACCEPTED\"}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/trpc/bookings/createBookingFlow",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:21.989Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"available\":false,\"reason\":\"Slot is already booked\",\"nextAvailableSlot\":\"2026-07-18T10:30:00.000Z\"}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/api/trpc/bookings/checkBookingAvailability",
+    "QueryParams": {
+      "input": [
+        "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-18T10:15:00.000Z\",\"endTime\":\"2026-07-18T10:45:00.000Z\",\"timeZone\":\"UTC\"}}"
+      ]
+    },
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:21.989Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-18T10:15:00.000Z\",\"endTime\":\"2026-07-18T10:45:00.000Z\",\"timeZone\":\"UTC\",\"name\":\"Bob Overbook\",\"email\":\"bob.overbook+ts1@example.com\",\"language\":\"en\"}}",
+    "ResponseBody": "{}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/trpc/bookings/createBookingFlow",
+    "QueryParams": {},
+    "StatusCode": 409,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:21.989Z",
+    "Scheme": "http"
+  }
+]
