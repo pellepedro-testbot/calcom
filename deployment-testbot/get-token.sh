@@ -1,21 +1,14 @@
 #!/usr/bin/env bash
-# Best-effort auth for the Cal.com SUT.
+# Auth token for the Cal.com SUT — a NextAuth **session cookie** (not a bearer token).
 #
-# IMPORTANT: Cal.com authenticates the web app via a NextAuth **session cookie**
-# (`next-auth.session-token`), NOT a bearer token. UI/DOM testbot flows should use the
-# recorded browser session (storageState) and do NOT need this script. Cal.com's REST API
-# v1 uses a per-user **API key** (`?apiKey=cal_live_...`), and API v2 uses OAuth access
-# tokens — both require a seeded/registered user + key issuance, so there is no simple
-# "print a bearer token" path from cold credentials.
-#
-# This script performs the NextAuth credentials login and prints the resulting session
-# token (usable as a cookie). It requires a user to exist — cal.com's `start.sh` seeds only
-# the app-store, not demo users, so seed users first (packages/prisma/seed.ts) or point
-# CAL_EMAIL/CAL_PASSWORD at a registered account. If no user exists yet, this exits non-zero.
+# Performs the NextAuth credentials login as the user that setup.sh seeds (see seed_login_user)
+# and prints the resulting `next-auth.session-token`. The account exists by the time testbot
+# calls authTokenCommand because setup.sh seeds it right after the SUT becomes healthy.
+# Override CAL_EMAIL / CAL_PASSWORD (and CAL_BASE_URL / SUT_BASE_URL) to use a different account.
 set -euo pipefail
-BASE="${CAL_BASE_URL:-http://localhost:3000}"
-EMAIL="${CAL_EMAIL:-[email protected]}"
-PASSWORD="${CAL_PASSWORD:-[email protected]}"
+BASE="${CAL_BASE_URL:-${SUT_BASE_URL:-http://localhost:3000}}"
+EMAIL="${CAL_EMAIL:-testbot@dev.local}"
+PASSWORD="${CAL_PASSWORD:-Testb0t-Pass123!}"
 JAR="$(mktemp)"; trap 'rm -f "$JAR"' EXIT
 
 csrf="$(curl -fsS -c "$JAR" "$BASE/api/auth/csrf" | python3 -c "import json,sys;print(json.load(sys.stdin)['csrfToken'])")"
@@ -29,5 +22,5 @@ curl -fsS -c "$JAR" -b "$JAR" -X POST "$BASE/api/auth/callback/credentials" \
   --data-urlencode "json=true" >/dev/null
 
 token="$(awk '/next-auth\.session-token|__Secure-next-auth\.session-token/{print $7}' "$JAR" | tail -1)"
-[ -n "$token" ] || { echo "no session token — is the user seeded/registered?" >&2; exit 1; }
+[ -n "$token" ] || { echo "no session token — is the seed user present? (setup.sh seed_login_user)" >&2; exit 1; }
 printf '%s\n' "$token"
