@@ -19,8 +19,21 @@ import { ZMassApplyHostLocationInputSchema } from "./massApplyHostLocation.schem
 import { get } from "./procedures/get";
 import { ZSearchTeamMembersInputSchema } from "./searchTeamMembers.schema";
 import { createEventPbacProcedure } from "./util";
+import { ZGetRecurringInputSchema, ZUpsertRecurringConfigSchema } from "./getRecurring.schema";
 
 export const eventTypesRouter = router({
+  getRecurring: authedProcedure.input(ZGetRecurringInputSchema).query(async ({ ctx, input }) => {
+    const { getRecurringHandler } = await import("./getRecurring.handler");
+
+    return getRecurringHandler({ ctx, input });
+  }),
+
+  upsertRecurring: authedProcedure.input(ZUpsertRecurringConfigSchema).mutation(async ({ ctx, input }) => {
+    const { upsertRecurringHandler } = await import("./upsertRecurring.handler");
+
+    return upsertRecurringHandler({ ctx, input });
+  }),
+
   // REVIEW: What should we name this procedure?
   getByViewer: authedProcedure.input(ZEventTypeInputSchema).query(async ({ ctx, input }) => {
     const { getByViewerHandler } = await import("./getByViewer.handler");
