@@ -52,3 +52,5 @@ jobs:
           targetSetupCommand: './deployment-testbot/setup.sh'
           targetReadyCheckCommand: 'curl -f http://localhost:3000'
           targetReadyCheckTimeout: 2400
+          # get-token.sh logs in as the user setup.sh seeds (testbot@dev.local) → NextAuth session token
+          authTokenCommand: './deployment-testbot/get-token.sh'
