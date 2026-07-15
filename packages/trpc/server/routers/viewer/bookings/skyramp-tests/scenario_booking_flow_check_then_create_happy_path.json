@@ -1,0 +1,58 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"available\":true,\"reason\":null,\"nextAvailableSlot\":null}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/api/trpc/bookings/checkBookingAvailability",
+    "QueryParams": {
+      "input": [
+        "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-19T14:00:00.000Z\",\"endTime\":\"2026-07-19T14:30:00.000Z\",\"timeZone\":\"UTC\"}}"
+      ]
+    },
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:28.216Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"json\":{\"eventTypeId\":1,\"startTime\":\"2026-07-19T14:00:00.000Z\",\"endTime\":\"2026-07-19T14:30:00.000Z\",\"timeZone\":\"UTC\",\"name\":\"Carol Creator\",\"email\":\"carol.creator+ts2@example.com\",\"notes\":\"Discuss Q3 roadmap\",\"language\":\"en\"}}",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"uid\":\"0baf1862-5073-4eb2-94a5-3aeb335e70f7\",\"title\":\"Carol Creator <> Testbot 30 Min\",\"startTime\":\"2026-07-19T14:00:00.000Z\",\"endTime\":\"2026-07-19T14:30:00.000Z\",\"attendeeName\":\"Carol Creator\",\"attendeeEmail\":\"carol.creator+ts2@example.com\",\"status\":\"ACCEPTED\"}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/trpc/bookings/createBookingFlow",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:16:28.216Z",
+    "Scheme": "http"
+  }
+]
