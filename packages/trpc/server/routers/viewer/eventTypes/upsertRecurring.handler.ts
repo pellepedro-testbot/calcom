@@ -1,4 +1,5 @@
 import type { PrismaClient } from "@calcom/prisma";
+import { Prisma } from "@calcom/prisma/client";
 
 import type { TrpcSessionUser } from "../../../types";
 import type { TUpsertRecurringConfigSchema } from "./getRecurring.schema";
@@ -58,7 +59,7 @@ export const upsertRecurringHandler = async ({
   await ctx.prisma.eventType.update({
     where: { id: eventTypeId },
     data: {
-      recurringEvent,
+      recurringEvent: recurringEvent as Prisma.InputJsonValue,
     },
   });
 
