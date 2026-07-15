@@ -10,15 +10,10 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-# Base compose always applies. In CI, overlay the GHA build cache and route the build through
-# buildx bake (which honors cache_from/cache_to). CI-only because `type=gha` needs the Actions
-# cache tokens, absent on a laptop.
+# NOTE: gha buildx cache intentionally disabled for cal.com. Its ~7.3GB image exceeds GitHub
+# Actions' ~10GB cache quota with mode=max, causing intermittent "failed to reserve cache"
+# build failures (SUT never deploys). Plain from-source build is slower (~20min) but reliable.
 COMPOSE=(-f docker-compose.yml)
-if [[ "${GITHUB_ACTIONS:-}" == "true" ]]; then
-  COMPOSE+=(-f docker-compose.ci.yml)
-  export COMPOSE_BAKE=true
-  echo "==> CI detected: enabling buildx GHA layer cache (docker-compose.ci.yml)"
-fi
 
 echo "==> Building Cal.com SUT from source + starting..."
 docker compose "${COMPOSE[@]}" up -d --build
