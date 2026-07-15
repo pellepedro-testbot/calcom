@@ -1,0 +1,17 @@
+# CI-ONLY overlay — enables GitHub Actions Buildx layer caching for the from-source build.
+#
+# Applied by setup.sh only when GITHUB_ACTIONS=true (with COMPOSE_BAKE=true). Requires a
+# docker-container buildx builder (docker/setup-buildx-action in the workflow) + the Actions
+# cache backend (auto-available in GitHub Actions). NOT used locally, where the `type=gha`
+# backend has no tokens and would fail the build.
+#
+# Effect: the stable, expensive stages (base image, deps install, Prisma generate, the Next.js
+# compile) are restored from cache across runs; only stages invalidated by a PR's code changes
+# re-run. The SUT is still built FROM SOURCE, so feature-branch changes are always exercised.
+services:
+  calcom:
+    build:
+      cache_from:
+        - type=gha,scope=calcom-sut
+      cache_to:
+        - type=gha,mode=max,scope=calcom-sut
