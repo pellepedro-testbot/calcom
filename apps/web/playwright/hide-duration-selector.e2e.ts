@@ -23,7 +23,7 @@ test.describe("Hide duration selector in booking page", () => {
       await page.waitForSelector('[data-testid="event-title"]');
 
       // Find and check the hide duration selector checkbox
-      const checkbox = page.getByTestId("hide-duration-selector-checkbox");
+      const checkbox = page.getByTestId("hide-duration-toggle");
       await checkbox.check();
 
       // Save the event type
@@ -98,7 +98,7 @@ test.describe("Hide duration selector in booking page", () => {
       await page.waitForSelector('[data-testid="event-title"]');
 
       // Find and check the hide duration selector checkbox
-      const checkbox = page.getByTestId("hide-duration-selector-checkbox");
+      const checkbox = page.getByTestId("hide-duration-toggle");
       await checkbox.check();
 
       // Save the event type
