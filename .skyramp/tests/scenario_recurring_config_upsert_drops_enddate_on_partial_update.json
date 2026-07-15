@@ -1,0 +1,84 @@
+[
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"json\":{\"eventTypeId\":1,\"frequency\":\"WEEKLY\",\"count\":10,\"interval\":1,\"endDate\":\"2026-12-31T00:00:00.000Z\"}}",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"eventTypeId\":1,\"updated\":true}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "next-auth.session-token=SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/trpc/eventTypes/upsertRecurring",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:13:24.286Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "{\"json\":{\"eventTypeId\":1,\"frequency\":\"MONTHLY\",\"count\":10,\"interval\":1}}",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"eventTypeId\":1,\"updated\":true}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "next-auth.session-token=SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "POST",
+    "Path": "/api/trpc/eventTypes/upsertRecurring",
+    "QueryParams": {},
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:13:24.286Z",
+    "Scheme": "http"
+  },
+  {
+    "Source": "192.168.65.1:39998",
+    "Destination": "localhost",
+    "RequestBody": "",
+    "ResponseBody": "{\"result\":{\"data\":{\"json\":{\"id\":1,\"eventTypeId\":1,\"frequency\":\"MONTHLY\",\"count\":10,\"interval\":1,\"endDate\":\"2026-12-31T00:00:00.000Z\"}}}}",
+    "RequestHeaders": {
+      "Content-Type": [
+        "application/json"
+      ],
+      "Cookie": [
+        "next-auth.session-token=SKYRAMP_PLACEHOLDER_TOKEN"
+      ]
+    },
+    "ResponseHeaders": {
+      "Content-Type": [
+        "application/json"
+      ]
+    },
+    "Method": "GET",
+    "Path": "/api/trpc/eventTypes/getRecurring",
+    "QueryParams": {
+      "input": [
+        "{\"json\":{\"eventTypeId\":1}}"
+      ]
+    },
+    "StatusCode": 200,
+    "Port": 3000,
+    "Timestamp": "2026-07-15T14:13:24.286Z",
+    "Scheme": "http"
+  }
+]
