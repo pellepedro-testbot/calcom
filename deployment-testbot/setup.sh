@@ -24,6 +24,13 @@ SEED_EMAIL="${SEED_EMAIL:-testbot@dev.local}"
 SEED_PASSWORD="${SEED_PASSWORD:-Testb0t-Pass123!}"
 SEED_USERNAME="${SEED_USERNAME:-testbot}"
 
+# Event type to seed so booking tests have data (first EventType row → id=1, which the
+# generated createBookingFlow/checkBookingAvailability tests use). Postgres service is `database`.
+SEED_ET_TITLE="${SEED_ET_TITLE:-Testbot 30 Min}"
+SEED_ET_SLUG="${SEED_ET_SLUG:-testbot-30min}"
+SEED_ET_LENGTH="${SEED_ET_LENGTH:-30}"
+PSQL=(docker compose "${COMPOSE[@]}" exec -T database psql -U unicorn_user -d calendso)
+
 seed_login_user() {
   echo "==> Seeding login user ${SEED_EMAIL} via ${SUT_BASE_URL}/api/auth/signup ..."
   local code
@@ -38,6 +45,23 @@ seed_login_user() {
   esac
 }
 
+seed_event_type() {
+  echo "==> Seeding event type '${SEED_ET_SLUG}' for ${SEED_EMAIL} (booking tests use eventTypeId=1) ..."
+  "${PSQL[@]}" -v ON_ERROR_STOP=0 -c "
+    INSERT INTO \"EventType\" (title, slug, length, \"userId\")
+    SELECT '${SEED_ET_TITLE}', '${SEED_ET_SLUG}', ${SEED_ET_LENGTH}, u.id
+    FROM users u WHERE u.email='${SEED_EMAIL}'
+      AND NOT EXISTS (SELECT 1 FROM \"EventType\" et WHERE et.slug='${SEED_ET_SLUG}' AND et.\"userId\"=u.id);
+    INSERT INTO \"_user_eventtype\" (\"A\",\"B\")
+    SELECT et.id, u.id FROM \"EventType\" et JOIN users u ON u.id=et.\"userId\"
+    WHERE et.slug='${SEED_ET_SLUG}'
+      AND NOT EXISTS (SELECT 1 FROM \"_user_eventtype\" j WHERE j.\"A\"=et.id AND j.\"B\"=u.id);
+  " >/dev/null 2>&1 || echo "!! WARN: event-type seed SQL failed (non-fatal)"
+  local etid
+  etid=$("${PSQL[@]}" -tAc "SELECT id FROM \"EventType\" WHERE slug='${SEED_ET_SLUG}' LIMIT 1;" 2>/dev/null | tr -d '[:space:]')
+  echo "==> Event type seeded: id=${etid:-?} slug=${SEED_ET_SLUG} (public page: ${SUT_BASE_URL}/${SEED_USERNAME}/${SEED_ET_SLUG})"
+}
+
 echo "==> Building Cal.com SUT from source + starting..."
 docker compose "${COMPOSE[@]}" up -d --build
 
@@ -46,6 +70,7 @@ for i in $(seq 1 300); do
   if curl -fsS -m 5 -o /dev/null "${SUT_BASE_URL}"; then
     echo "==> SUT healthy"
     seed_login_user
+    seed_event_type
     echo "==> Open ${SUT_BASE_URL}"
     exit 0
   fi
