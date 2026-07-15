@@ -159,17 +159,17 @@ test.describe("Availability", () => {
     await page.getByTestId(saturday).getByRole("switch").click();
     await page
       .locator("div")
-      .filter({ hasText: "Sunday9:00am - 5:00pm" })
+      .filter({ hasText: "Sunday9:00am - 6:00pm" })
       .getByTestId("add-time-availability")
       .first()
       .click();
-    await expect(page.locator("div").filter({ hasText: "6:00pm" }).nth(1)).toBeVisible();
+    await expect(page.locator("div").filter({ hasText: "7:00pm" }).nth(1)).toBeVisible();
     await page.getByRole("button", { name: save }).click();
-    await expect(page.getByText("Sun - Tue, Thu - Sat, 9:00 AM - 5:00 PM")).toBeVisible();
-    await expect(page.getByText("Sun, 5:00 PM - 6:00 PM")).toBeVisible();
+    await expect(page.getByText("Sun - Tue, Thu - Sat, 9:00 AM - 6:00 PM")).toBeVisible();
+    await expect(page.getByText("Sun, 6:00 PM - 7:00 PM")).toBeVisible();
     await page
       .locator("div")
-      .filter({ hasText: "Sunday9:00am - 5:00pm" })
+      .filter({ hasText: "Sunday9:00am - 6:00pm" })
       .getByTestId("copy-button")
       .first()
       .click();
