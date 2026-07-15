@@ -1,3 +1,5 @@
+import { randomUUID } from "crypto";
+
 import type { PrismaClient } from "@calcom/prisma";
 import { Prisma } from "@calcom/prisma/client";
 import { HttpError } from "@calcom/lib/http-error";
@@ -130,6 +132,7 @@ export const createBookingHandler = async ({
 
   const booking = await ctx.prisma.booking.create({
     data: {
+      uid: randomUUID(),
       title: bookingTitle,
       startTime: new Date(startTime),
       endTime: new Date(endTime),
