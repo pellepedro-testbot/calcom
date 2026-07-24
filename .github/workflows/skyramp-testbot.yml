@@ -43,14 +43,15 @@ jobs:
 
       - uses: skyramp/testbot@70034f7ff936e4e516064307679160cdc8da60eb # v0.11.0
         with:
-          skyrampMcpVersion: 0.3.1
+          skyrampMcpVersion: 0.3.2-rc.pom-3
           skyrampLicenseFile: ${{ secrets.SKYRAMP_LICENSE_FILE }}
           anthropicApiKey: ${{ secrets.SKYRAMP_TESTBOT_API_KEY }}
           githubToken: ${{ steps.skyramp-testbot-app-token.outputs.token }}
           githubAppId: ${{ secrets.SKYRAMP_TESTBOT_APP_ID }}
           githubAppPrivateKey: ${{ secrets.SKYRAMP_TESTBOT_APP_PRIVATE_KEY }}
-          targetSetupCommand: './deployment-testbot/setup.sh'
-          targetReadyCheckCommand: 'curl -f http://localhost:3000'
+          targetSetupCommand: "./deployment-testbot/setup.sh"
+          targetReadyCheckCommand: "curl -f http://localhost:3000"
           targetReadyCheckTimeout: 2400
           # get-token.sh logs in as the user setup.sh seeds (testbot@dev.local) → NextAuth session token
-          authTokenCommand: './deployment-testbot/get-token.sh'
+          authTokenCommand: './deployment-testbot/get-token.sh'          authTokenCommand: './deployment-testbot/get-token.sh'          authTokenCommand: "./deployment-testbot/get-token.sh"
+
