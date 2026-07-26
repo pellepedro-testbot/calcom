@@ -2127,7 +2127,7 @@
   "copy_link_to_form": "Copy link to form",
   "theme": "Booking page theme",
   "theme_applies_note": "This only applies to your public booking pages",
-  "app_theme": "Dashboard theme",
+  "app_theme": "Appearance theme",
   "app_theme_applies_note": "This only applies to your logged in dashboard",
   "theme_system": "System default",
   "add_a_team": "Add a team",
